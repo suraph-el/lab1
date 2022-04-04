@@ -20,7 +20,8 @@ public class LoggerAspect {
     @Autowired
     LoggerService loggerService;
 
-
+    @Pointcut("@annotation( waa.lab1.lab1.service.CommentService.*(..)) || execution(* waa.lab1.lab1.service.PostService.*(..)) || execution(* waa.lab1.lab1.service.UserService.*(..))")
+    public void logMeAnnotation(){}
 
     @Pointcut("execution(* waa.lab1.lab1.service.CommentService.*(..)) || execution(* waa.lab1.lab1.service.PostService.*(..)) || execution(* waa.lab1.lab1.service.UserService.*(..))")
     public void logMeExecution(){}
@@ -34,7 +35,7 @@ public class LoggerAspect {
         loggerService.addLog(logger);
 
     }
-    @Around("logMeExecution()")
+    @Around("logMeAnnotation()")
     public void logMeExecution(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
         long executionStartTime = System.currentTimeMillis();
         proceedingJoinPoint.proceed();
